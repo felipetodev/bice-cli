@@ -2,6 +2,7 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { CONFIG_CHECKING_ACCOUNT_FILENAME, CONFIG_FILENAME } from "@/constants";
 import { loginSchema, type LoginConfig } from "@/schemas/login";
+import { productsSchema } from "./schemas/products";
 
 const CONFIG_PATH = join(import.meta.dir, "..", CONFIG_FILENAME);
 const CHECKING_ACCOUNT_PATH = join(
@@ -35,4 +36,42 @@ export async function removeConfig(): Promise<void> {
   if (existsSync(CONFIG_PATH)) {
     unlinkSync(CONFIG_PATH);
   }
+}
+
+type CheckingAccount = {
+  Cuenta_Corriente: Array<{ numeroCuenta: string }>;
+  Cuenta_Retiro_AFP: Array<{ numeroCuenta: string }>;
+  Cuenta_Vista: Array<{ numeroCuenta: string }>;
+};
+
+export async function saveCheckingAccount({
+  productos,
+}: {
+  productos: CheckingAccount;
+}): Promise<void> {
+  const cards = {} as Record<string, string>;
+  for (const product of Object.keys(productos) as Array<
+    keyof CheckingAccount
+  >) {
+    cards[product.toLocaleLowerCase()] = productos[product][0].numeroCuenta;
+  }
+
+  await Bun.write(CHECKING_ACCOUNT_PATH, JSON.stringify(cards, null, 2));
+}
+
+export async function loadCheckingAccount() {
+  if (!existsSync(CHECKING_ACCOUNT_PATH)) {
+    throw new Error(
+      `No checking account config found. Please run 'bice products' to save your checking account info.`,
+    );
+  }
+  const text = await Bun.file(CHECKING_ACCOUNT_PATH).text();
+
+  const parsed = productsSchema.safeParse(JSON.parse(text));
+
+  if (!parsed.success) {
+    throw new Error(`Invalid checking account config: ${parsed.error.message}`);
+  }
+
+  return parsed.data;
 }
