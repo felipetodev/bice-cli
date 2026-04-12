@@ -14,13 +14,18 @@ export function buildCookieHeader({
 
 export function buildHeaders(
   auth: BffAuthConfig,
+  credentials = false,
   extraHeaders?: HeadersInit,
 ): HeadersInit {
   return {
     ...baseHeaders,
     cookie: buildCookieHeader(auth),
-    "x-bice-persona-csrf": auth.xBicePersonaCsrf,
-    "x-rut-cliente": auth.biceUserId.padStart(10, "0"),
+    ...(credentials
+      ? {
+          "x-bice-persona-csrf": auth.xBicePersonaCsrf,
+          "x-rut-cliente": auth.biceUserId.padStart(10, "0"),
+        }
+      : {}),
     ...extraHeaders,
   };
 }

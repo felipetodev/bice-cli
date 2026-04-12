@@ -63,7 +63,7 @@ export async function fetcher<T = unknown>({
 }): Promise<T> {
   const response = await fetch(`${BFF_URL}/${endpoint}`, {
     method,
-    headers: buildHeaders(auth),
+    headers: buildHeaders(auth, method === "POST"),
     body: body === undefined ? undefined : JSON.stringify(body),
   });
 
