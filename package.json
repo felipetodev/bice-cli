@@ -1,0 +1,47 @@
+{
+  "name": "bice-cli",
+  "version": "0.0.1",
+  "author": {
+    "name": "Felipe Ossandon",
+    "email": "fe.ossandon.u@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "cli",
+    "bice",
+    "chile",
+    "banking",
+    "open-bank"
+  ],
+  "bin": {
+    "bice": "index.ts"
+  },
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "files": [
+    "index.ts",
+    "src/**/*.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "login": "bun src/commands/login.ts",
+    "logout": "bun src/commands/logout.ts",
+    "user": "bun src/commands/user.ts",
+    "balance": "bun src/commands/balance.ts",
+    "products": "bun src/commands/products.ts",
+    "transactions": "bun src/commands/transactions.ts",
+    "server": "bun run src/api/index.ts"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.7.6",
+    "chalk": "5.6.2",
+    "hono": "^4.12.12",
+    "playwright-chromium": "^1.59.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  }
+}
