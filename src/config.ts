@@ -2,7 +2,7 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { CONFIG_CHECKING_ACCOUNT_FILENAME, CONFIG_FILENAME } from "@/constants";
 import { loginSchema, type LoginConfig } from "@/schemas/login";
-import { productsSchema } from "./schemas/products";
+import { CheckingAccount, productsSchema } from "@/schemas/products";
 
 const CONFIG_PATH = join(import.meta.dir, "..", CONFIG_FILENAME);
 const CHECKING_ACCOUNT_PATH = join(
@@ -37,12 +37,6 @@ export async function removeConfig(): Promise<void> {
     unlinkSync(CONFIG_PATH);
   }
 }
-
-type CheckingAccount = {
-  Cuenta_Corriente: Array<{ numeroCuenta: string }>;
-  Cuenta_Retiro_AFP: Array<{ numeroCuenta: string }>;
-  Cuenta_Vista: Array<{ numeroCuenta: string }>;
-};
 
 export async function saveCheckingAccount({
   productos,

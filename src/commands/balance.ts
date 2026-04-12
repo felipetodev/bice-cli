@@ -1,5 +1,5 @@
 import { loadCheckingAccount, loadConfig } from "@/config";
-import { baseHeaders, BFF_URL, Endpoints } from "@/constants";
+import { getBalance } from "@/services/balance";
 
 const config = await loadConfig().catch((error) => {
   console.error("❌ Failed to load config:");
@@ -17,38 +17,16 @@ try {
     throw new Error("Config not found. Please run 'bice login' first.");
   }
 
-  const {
-    biceUserId: RUT,
-    bicePersonaCsrf,
-    bicePersonaAt,
-    xBicePersonaCsrf,
-    idSesionPersonas,
-  } = config;
+  if (!products) {
+    throw new Error("Checking account config not found.");
+  }
 
   let productsBalance = {};
-  for (const [productName, productNumber] of Object.entries(products!)) {
+  for (const [productName, productNumber] of Object.entries(products)) {
     if (!productNumber) continue;
 
-    const response = await fetch(`${BFF_URL}/${Endpoints.BALANCE}`, {
-      method: "POST",
-      headers: {
-        ...baseHeaders,
-        cookie: `idSesionPersonas=${idSesionPersonas}; bice-persona-csrf=${bicePersonaCsrf}; bice-persona-at=${bicePersonaAt}`,
-        "x-bice-persona-csrf": xBicePersonaCsrf,
-        "x-rut-cliente": RUT.padStart(10, "0"),
-      },
-      body: JSON.stringify({
-        productNumber: productNumber.padStart(11, "0"),
-      }),
-    });
+    const balanceInfo = await getBalance(config, { productNumber });
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch balance info: ${response.status} ${response.statusText}`,
-      );
-    }
-
-    const balanceInfo = await response.json();
     productsBalance = {
       ...productsBalance,
       [productName]: balanceInfo,
@@ -58,6 +36,7 @@ try {
   console.log(`  "Balance info:"\n`);
   console.log(JSON.stringify(productsBalance, null, 2));
 } catch (error) {
-  console.error("❌ Failed to fetch balance info:");
+  console.error("Failed to fetch balance info:");
   console.error(error);
+  process.exit(1);
 }

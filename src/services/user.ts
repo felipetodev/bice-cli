@@ -1,27 +1,17 @@
-import { baseHeaders, BFF_URL, Endpoints } from "@/constants";
-import { UserInfo, userInfoSchema } from "@/schemas/user";
-import type { LoginConfig } from "@/schemas/login";
+import { Endpoints } from "@/constants";
+import { userInfoSchema } from "@/schemas/user";
+import { fetcher } from "@/services/http/request";
+import type { UserInfo } from "@/schemas/user";
+import type { BffAuthConfig } from "@/services/http/types";
 
-export async function getUserInfo({
-  bicePersonaCsrf,
-  bicePersonaAt,
-  idSesionPersonas,
-}: Partial<LoginConfig>): Promise<UserInfo> {
-  const response = await fetch(`${BFF_URL}/${Endpoints.USER}`, {
+export async function getUserInfo(auth: BffAuthConfig): Promise<UserInfo> {
+  const response = await fetcher({
+    endpoint: Endpoints.USER,
     method: "GET",
-    headers: {
-      ...baseHeaders,
-      cookie: `idSesionPersonas=${idSesionPersonas}; bice-persona-csrf=${bicePersonaCsrf}; bice-persona-at=${bicePersonaAt}`,
-    },
+    auth,
   });
 
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch user info: ${response.status} ${response.statusText}: ${await response.text()}`,
-    );
-  }
-
-  const parsed = userInfoSchema.safeParse(await response.json());
+  const parsed = userInfoSchema.safeParse(response);
   if (!parsed.success) {
     console.error("Failed to parse user info:", parsed.error);
     throw new Error("Failed to parse user info");

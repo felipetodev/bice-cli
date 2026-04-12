@@ -9,7 +9,7 @@ type Variables = { config: LoginConfig };
 const app = new Hono<{ Variables: Variables }>();
 app.use("*", cors());
 
-console.log(`BICE CLI API running on: http://localhost:3002`);
+console.log("BICE CLI API running on: http://localhost:3002");
 
 app.get("/", (c) => {
   return c.text("🏦 BICE CLI API is running");
@@ -23,8 +23,13 @@ app.use("/api/*", async (c, next) => {
 
 app.get("/api/user", async (c) => {
   const config = c.get("config");
-  const userInfo = await getUserInfo(config);
-  return c.json(userInfo);
+  try {
+    const userInfo = await getUserInfo(config);
+    return c.json(userInfo);
+  } catch (error) {
+    console.error("Error fetching user info:\n", JSON.stringify(error));
+    return c.json({ error: "Failed to fetch user info" }, 500);
+  }
 });
 
 export default {

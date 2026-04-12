@@ -11,13 +11,8 @@ try {
   if (!config) {
     throw new Error("Config not found. Please run 'bice login' first.");
   }
-  const { bicePersonaCsrf, bicePersonaAt, idSesionPersonas } = config;
 
-  const userInfo = await getUserInfo({
-    bicePersonaCsrf,
-    bicePersonaAt,
-    idSesionPersonas,
-  });
+  const userInfo = await getUserInfo(config);
 
   console.log(`  "User info:"\n`);
   console.log(JSON.stringify(userInfo, null, 2));
