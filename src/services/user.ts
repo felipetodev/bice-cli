@@ -1,7 +1,6 @@
 import { Endpoints } from "@/constants";
-import { userInfoSchema } from "@/schemas/user";
+import { userInfoSchema, type UserInfo } from "@/schemas/user";
 import { fetcher } from "@/services/http/request";
-import type { UserInfo } from "@/schemas/user";
 import type { BffAuthConfig } from "@/services/http/types";
 
 export async function getUserInfo(auth: BffAuthConfig): Promise<UserInfo> {

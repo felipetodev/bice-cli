@@ -131,6 +131,8 @@ const login = async () => {
     bicePersonaAt,
     xBicePersonaCsrf,
     idSesionPersonas,
+    // Sessions expire after ~30 minutes
+    sessionExpiresAt: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
   });
 
   console.log(`  "Session data saved to config file!"`);

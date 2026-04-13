@@ -28,6 +28,7 @@
     "login": "bun src/commands/login.ts",
     "logout": "bun src/commands/logout.ts",
     "user": "bun src/commands/user.ts",
+    "whoami": "bun src/commands/whoami.ts",
     "balance": "bun src/commands/balance.ts",
     "products": "bun src/commands/products.ts",
     "transactions": "bun src/commands/transactions.ts",

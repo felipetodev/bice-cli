@@ -1,10 +1,12 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { loadCheckingAccount, loadConfig } from "@/config";
+import { getWhoami } from "@/services/whoami";
 import { getUserInfo } from "@/services/user";
 import { getBalance } from "@/services/balance";
 import { getProducts } from "@/services/products";
 import { getTransactions } from "@/services/transactions";
+import { formatWhoAmI, formatMaskedProducts } from "@/formatters";
 import type { LoginConfig } from "@/schemas/login";
 
 type Variables = { config: LoginConfig };
@@ -32,6 +34,25 @@ app.get("/api/user", async (c) => {
   } catch (error) {
     console.error("Error fetching user info:\n", JSON.stringify(error));
     return c.json({ error: "Failed to fetch user info" }, 500);
+  }
+});
+
+app.get("/api/whoami", async (c) => {
+  const config = c.get("config");
+  try {
+    const whoami = await getWhoami(config);
+    const products = await loadCheckingAccount().catch(() => undefined);
+
+    return c.json({
+      id: config.biceUserId,
+      expires_at: config.sessionExpiresAt,
+      is_valid: new Date(config.sessionExpiresAt) > new Date(),
+      products: formatMaskedProducts(products),
+      ...formatWhoAmI(whoami),
+    });
+  } catch (error) {
+    console.error("Error fetching whoami info:\n", JSON.stringify(error));
+    return c.json({ error: "Failed to fetch whoami info" }, 500);
   }
 });
 

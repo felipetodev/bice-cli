@@ -12,6 +12,7 @@ export const PORTAL_URL = "https://portalpersonas.bice.cl" as const;
 export const BFF_URL = "https://gw.bice.cl" as const;
 export enum Endpoints {
   USER = "oauth-agent-personas/userInfo",
+  WHOAMI = "portalpersonas/bff-portal-hbp/v1/salesforce",
   PRODUCTS = "portalpersonas/bff-portal-hbp/v1/products",
   BALANCE = "portalpersonas/bff-checking-account-transactions-100/v1/balance",
   TRANSACTIONS = "portalpersonas/bff-checking-account-transactions-100/v1/transactions",

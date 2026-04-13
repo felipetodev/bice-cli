@@ -8,6 +8,7 @@ export const loginSchema = z.object({
   bicePersonaAt: z.string(),
   xBicePersonaCsrf: z.string(),
   idSesionPersonas: z.string(),
+  sessionExpiresAt: z.string(),
 });
 
 export type LoginConfig = z.infer<typeof loginSchema>;
