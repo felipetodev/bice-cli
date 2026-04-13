@@ -14,10 +14,36 @@ type Variables = { config: LoginConfig };
 const app = new Hono<{ Variables: Variables }>();
 app.use("*", cors());
 
-console.log("BICE CLI API running on: http://localhost:3002");
+console.log("🏦 BICE CLI API running on: http://localhost:3002");
 
 app.get("/", (c) => {
-  return c.text("🏦 BICE CLI API is running");
+  return c.json([
+    {
+      endpoint: "/api/user",
+      description: "Fetches user information",
+    },
+    {
+      endpoint: "/api/whoami",
+      description:
+        "Fetches session information and products linked to the account",
+    },
+    {
+      endpoint: "/api/products",
+      description: "Fetches all products for the linked account",
+    },
+    {
+      endpoint: "/api/transactions",
+      description: "Fetches transactions for the linked products",
+      query_params: {
+        page: "Page number for pagination (default: 1)",
+        limit: "Number of transactions per page (default: 40)",
+      },
+    },
+    {
+      endpoint: "/api/balance",
+      description: "Fetches balance for the linked products",
+    },
+  ]);
 });
 
 app.use("/api/*", async (c, next) => {

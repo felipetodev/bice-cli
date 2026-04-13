@@ -7,12 +7,20 @@
     "email": "fe.ossandon.u@gmail.com"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/felipetodev/bice-cli"
+  },
   "keywords": [
     "cli",
+    "mcp",
     "bice",
     "chile",
+    "agents",
+    "finance",
     "banking",
-    "open-bank"
+    "open-bank",
+    "automation"
   ],
   "bin": {
     "bice": "index.ts"
