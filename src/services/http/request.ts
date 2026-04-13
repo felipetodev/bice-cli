@@ -1,4 +1,4 @@
-import { BFF_URL } from "@/constants";
+import { BFF_URL, Endpoints } from "@/constants";
 import { buildHeaders } from "@/services/http/headers";
 import {
   BffErrorCode,
@@ -32,7 +32,7 @@ function buildErrorMessage({
   code: BffErrorCode;
   status: number;
   statusText: string;
-  endpoint: string;
+  endpoint: Endpoints;
   responseBody: string;
 }): string {
   if (code === BffErrorCode.SESSION_EXPIRED) {
@@ -40,7 +40,7 @@ function buildErrorMessage({
   }
 
   if (code === BffErrorCode.UNAUTHORIZED) {
-    return "Unauthorized request to BFF. Please run 'bice login' again.";
+    return "Unauthorized request. Please run 'bice login' again.";
   }
 
   if (code === BffErrorCode.BAD_REQUEST) {
@@ -55,15 +55,17 @@ export async function fetcher<T = unknown>({
   method,
   auth,
   body,
+  withCredentials,
 }: {
-  endpoint: string;
+  endpoint: Endpoints;
   method: "GET" | "POST";
   auth: BffAuthConfig;
   body?: unknown;
+  withCredentials?: boolean;
 }): Promise<T> {
   const response = await fetch(`${BFF_URL}/${endpoint}`, {
     method,
-    headers: buildHeaders(auth, method === "POST"),
+    headers: buildHeaders(auth, withCredentials || method === "POST"),
     body: body === undefined ? undefined : JSON.stringify(body),
   });
 

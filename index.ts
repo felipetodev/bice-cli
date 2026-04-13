@@ -17,7 +17,7 @@ const commands: Record<string, string> = {
   balance: "src/commands/balance.ts",
   products: "src/commands/products.ts",
   transactions: "src/commands/transactions.ts",
-  server: "../server.ts",
+  server: "src/api/index.ts",
 };
 
 if (!command || command === "help" || !commands[command]) {
