@@ -17,6 +17,7 @@ export enum Endpoints {
   BALANCE = "portalpersonas/bff-checking-account-transactions-100/v1/balance",
   TRANSACTIONS = "portalpersonas/bff-checking-account-transactions-100/v1/transactions",
   MOVEMENTS = "portalpersonas/bff-historic-account-movements-portal/v1/movements",
+  MONTHLY_SUMMARY = "portalpersonas/bff-checking-account-transactions-100/v1/checking-account/get-monthly-summary",
 }
 
 export const baseHeaders = {

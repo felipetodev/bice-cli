@@ -31,12 +31,6 @@ try {
       2,
     ),
   );
-
-  if (!products) {
-    console.log(
-      `\n  "[Note]: If "products" is null, run 'bice products' first to load them, then run 'bice whoami' again."`,
-    );
-  }
 } catch (error) {
   console.error("Failed to fetch whoami info:");
   console.error(error);

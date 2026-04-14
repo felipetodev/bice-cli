@@ -1,8 +1,7 @@
 import { loadCheckingAccount, loadConfig } from "../config";
-import { getTransactions } from "../services/transactions";
+import { getMonthlySummary } from "../services/monthly-summary";
 
-const pagination = process.argv[2];
-const limit = process.argv[3];
+const periods = process.argv[2];
 
 const config = await loadConfig().catch((error) => {
   console.error("Failed to load config:");
@@ -11,6 +10,7 @@ const config = await loadConfig().catch((error) => {
 });
 
 const products = await loadCheckingAccount().catch((error) => {
+  console.error("Failed to load products:");
   console.error(error);
   process.exit(1);
 });
@@ -20,16 +20,15 @@ try {
     throw new Error("Config not found. Please run 'bice login' first.");
   }
 
-  const transactionsData = await getTransactions(config, {
+  const monthlySummaries = await getMonthlySummary(config, {
     products,
-    pagination,
-    limit,
+    periodsQuantity: periods,
   });
 
-  console.log(`  "Transactions data:"\n`);
-  console.log(transactionsData);
+  console.log(`  "Monthly summaries:"\n`);
+  console.log(monthlySummaries);
 } catch (error) {
-  console.error("Failed to fetch transactions info:");
+  console.error("Failed to fetch monthly summaries:");
   console.error(error);
   process.exit(1);
 }

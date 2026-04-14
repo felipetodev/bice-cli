@@ -18,6 +18,7 @@ const commands: Record<string, string> = {
   balance: "src/commands/balance.ts",
   products: "src/commands/products.ts",
   transactions: "src/commands/transactions.ts",
+  "monthly-summary": "src/commands/monthly-summary.ts",
   server: "src/api/index.ts",
 };
 
@@ -36,6 +37,7 @@ ${b("Banking")}
   ${c("products")}                               List all products
   ${c("balance")}                                Quick balance check
   ${c("transactions")} ${d("<page> <limit>")}            View period transactions (default: page=1, limit=40)
+  ${c("monthly-summary")} ${d("<periods>")}         View monthly summary (e.g. 'bice monthly-summary 6' for the last 6 months)
   WIP: ${"movements"} ${d("<month> <year>")}          View monthly movements (e.g. 'bice movements april')
 
 ${b("Session")}

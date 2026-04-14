@@ -6,10 +6,12 @@ import { getUserInfo } from "../services/user";
 import { getBalance } from "../services/balance";
 import { getProducts } from "../services/products";
 import { getTransactions } from "../services/transactions";
+import { getMonthlySummary } from "../services/monthly-summary";
 import { formatWhoAmI, formatMaskedProducts } from "../formatters";
 import type { LoginConfig } from "../schemas/login";
+import type { ProductsConfig } from "../schemas/products";
 
-type Variables = { config: LoginConfig };
+type Variables = { config: LoginConfig; products: ProductsConfig };
 
 const app = new Hono<{ Variables: Variables }>();
 app.use("*", cors());
@@ -43,12 +45,21 @@ app.get("/", (c) => {
       endpoint: "/api/balance",
       description: "Fetches balance for the linked products",
     },
+    {
+      endpoint: "/api/monthly-summary",
+      description: "Fetches monthly summary for a given product",
+      query_params: {
+        periods: "Number of past months to include in the summary (default: 4)",
+      },
+    },
   ]);
 });
 
 app.use("/api/*", async (c, next) => {
   const config = await loadConfig();
+  const products = await loadCheckingAccount();
   c.set("config", config);
+  c.set("products", products);
   await next();
 });
 
@@ -65,9 +76,9 @@ app.get("/api/user", async (c) => {
 
 app.get("/api/whoami", async (c) => {
   const config = c.get("config");
+  const products = c.get("products");
   try {
     const whoami = await getWhoami(config);
-    const products = await loadCheckingAccount().catch(() => undefined);
 
     return c.json({
       id: config.biceUserId,
@@ -95,10 +106,10 @@ app.get("/api/products", async (c) => {
 
 app.get("/api/transactions", async (c) => {
   const config = c.get("config");
+  const products = c.get("products");
   const { page, limit } = c.req.query();
 
   try {
-    const products = await loadCheckingAccount();
     const transactionsData = await getTransactions(config, {
       products,
       limit,
@@ -113,9 +124,9 @@ app.get("/api/transactions", async (c) => {
 
 app.get("/api/balance", async (c) => {
   const config = c.get("config");
-  try {
-    const products = await loadCheckingAccount();
+  const products = c.get("products");
 
+  try {
     let productsBalance = {};
     for (const [productName, productNumber] of Object.entries(products)) {
       if (!productNumber) continue;
@@ -132,6 +143,23 @@ app.get("/api/balance", async (c) => {
   } catch (error) {
     console.error("Error fetching balance:\n", JSON.stringify(error));
     return c.json({ error: "Failed to fetch balance info" }, 500);
+  }
+});
+
+app.get("/api/monthly-summary", async (c) => {
+  const config = c.get("config");
+  const products = c.get("products");
+  const { periods } = c.req.query();
+
+  try {
+    const monthlySummaries = await getMonthlySummary(config, {
+      products,
+      periodsQuantity: periods,
+    });
+    return c.json(monthlySummaries);
+  } catch (error) {
+    console.error("Error fetching monthly summary:\n", JSON.stringify(error));
+    return c.json({ error: "Failed to fetch monthly summary info" }, 500);
   }
 });
 

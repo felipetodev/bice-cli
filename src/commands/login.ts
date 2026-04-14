@@ -1,11 +1,13 @@
 import { chromium } from "playwright-chromium";
-import { saveConfig } from "../config";
+import { saveCheckingAccount, saveConfig } from "../config";
+import { getProducts } from "../services/products";
 import {
   PASSWORD,
   RUT,
   PORTAL_URL as PAGE_LOGIN_URL,
   baseHeaders,
 } from "../constants";
+import type { LoginConfig } from "../schemas/login";
 
 let browser: ReturnType<typeof chromium.launch> | null = null;
 
@@ -123,7 +125,7 @@ const login = async () => {
 
   console.log(`  "Session data extracted successfully!"`);
 
-  await saveConfig({
+  const config: LoginConfig = {
     biceUserId: RUT || username,
     bicePersonaId,
     bicePersonaAuth,
@@ -133,7 +135,12 @@ const login = async () => {
     idSesionPersonas,
     // Sessions expire after ~30 minutes
     sessionExpiresAt: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
-  });
+  };
+
+  await saveConfig(config);
+
+  const productsData = await getProducts(config);
+  await saveCheckingAccount(productsData);
 
   console.log(`  "Session data saved to config file!"`);
 

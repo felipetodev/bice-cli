@@ -17,10 +17,6 @@ try {
     throw new Error("Config not found. Please run 'bice login' first.");
   }
 
-  if (!products) {
-    throw new Error("Checking account config not found.");
-  }
-
   let productsBalance = {};
   for (const [productName, productNumber] of Object.entries(products)) {
     if (!productNumber) continue;

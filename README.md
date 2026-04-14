@@ -43,6 +43,7 @@ bice user                            # Show user info
 bice products                        # List all products
 bice balance                         # Quick balance check
 bice transactions [page] [limit]     # View period transactions (default: page=1, limit=40)
+bice monthly-summary [periods]       # View monthly summary (default: 4 past months)
 
 # Session
 bice whoami                          # Show session info and accounts
@@ -55,14 +56,15 @@ bice logout                          # Disconnect and clear session
 bice server                          # Start REST API server (port 3002)
 ```
 
-| Method | Endpoint                         | Description                     
-|--------|----------------------------------|----------------------------------|
-| GET    | /api/user                        | Get user info                    |
-| GET    | /api/whoami                      | Get session info and accounts    |
-| GET    | /api/products                    | Get all products                 |
-| GET    | /api/transactions                | Get transactions                 |
-| GET    | /api/transactions?page=&limit=   | Get transactions with pagination |
-| GET    | /api/balance                     | Get balance for all products     |
+| Method | Endpoint                           | Description                     
+|--------|------------------------------------|----------------------------------------------|
+| GET    | /api/user                          | Get user info                                |
+| GET    | /api/whoami                        | Get session info and accounts                |
+| GET    | /api/products                      | Get all products                             |
+| GET    | /api/transactions                  | Get transactions                             |
+| GET    | /api/transactions?page=&limit=     | Get transactions with pagination             |
+| GET    | /api/balance                       | Get balance for all products                 |
+| GET    | /api/monthly-summary?periods=      | Get monthly summary (default: 4 past months) |
 
 ## Tech Stack
 
@@ -74,7 +76,7 @@ bice server                          # Start REST API server (port 3002)
 
 ## Security Considerations
 
-> **This tool is intended for local, personal use only.**
+> **This tool is intended for local and personal use only.**
 > It runs on your machine and communicates directly with BICE services, but handling real banking credentials always involves risk.
 
 - Keep your credentials out of shell history whenever possible (use environment variables or secure prompts instead of plain command arguments).
