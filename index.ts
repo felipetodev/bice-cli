@@ -2,7 +2,7 @@
 import { resolve, dirname } from "path";
 import { readFileSync } from "fs";
 import chalk from "chalk";
-import { printBiceLogo } from "@/ui/logo";
+import { printBiceLogo } from "./src/ui/logo";
 
 const ROOT = dirname(Bun.main);
 const command = process.argv[2];

@@ -1,6 +1,6 @@
-import { Endpoints } from "@/constants";
-import { fetcher } from "@/services/http/request";
-import type { BffAuthConfig } from "@/services/http/types";
+import { Endpoints } from "../constants";
+import { fetcher } from "../services/http/request";
+import type { BffAuthConfig } from "../services/http/types";
 
 type GetBalanceParams = {
   productNumber: string;

@@ -1,10 +1,10 @@
-import { BFF_URL, Endpoints } from "@/constants";
-import { buildHeaders } from "@/services/http/headers";
+import { BFF_URL, Endpoints } from "../../constants";
+import { buildHeaders } from "../../services/http/headers";
 import {
   BffErrorCode,
   BffRequestError,
   type BffAuthConfig,
-} from "@/services/http/types";
+} from "../../services/http/types";
 
 function mapErrorCode(status: number, responseBody: string): BffErrorCode {
   if (responseBody.includes("The Token has expired")) {

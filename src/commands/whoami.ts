@@ -1,6 +1,6 @@
-import { loadCheckingAccount, loadConfig } from "@/config";
-import { formatMaskedProducts, formatWhoAmI } from "@/formatters";
-import { getWhoami } from "@/services/whoami";
+import { loadCheckingAccount, loadConfig } from "../config";
+import { formatMaskedProducts, formatWhoAmI } from "../formatters";
+import { getWhoami } from "../services/whoami";
 
 const config = await loadConfig().catch((error) => {
   console.error("Failed to load config:");

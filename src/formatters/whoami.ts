@@ -1,4 +1,4 @@
-import type { WhoAmI } from "@/schemas/whoami";
+import type { WhoAmI } from "../schemas/whoami";
 
 type WhoAmIViewModel = {
   name: string;

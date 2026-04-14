@@ -1,13 +1,13 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { loadCheckingAccount, loadConfig } from "@/config";
-import { getWhoami } from "@/services/whoami";
-import { getUserInfo } from "@/services/user";
-import { getBalance } from "@/services/balance";
-import { getProducts } from "@/services/products";
-import { getTransactions } from "@/services/transactions";
-import { formatWhoAmI, formatMaskedProducts } from "@/formatters";
-import type { LoginConfig } from "@/schemas/login";
+import { loadCheckingAccount, loadConfig } from "../config";
+import { getWhoami } from "../services/whoami";
+import { getUserInfo } from "../services/user";
+import { getBalance } from "../services/balance";
+import { getProducts } from "../services/products";
+import { getTransactions } from "../services/transactions";
+import { formatWhoAmI, formatMaskedProducts } from "../formatters";
+import type { LoginConfig } from "../schemas/login";
 
 type Variables = { config: LoginConfig };
 

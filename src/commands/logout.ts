@@ -1,4 +1,4 @@
-import { removeConfig } from "@/config";
+import { removeConfig } from "../config";
 
 try {
   await removeConfig();

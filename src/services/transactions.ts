@@ -1,7 +1,7 @@
-import { Endpoints } from "@/constants";
-import { fetcher } from "@/services/http/request";
-import type { ProductsConfig } from "@/schemas/products";
-import type { BffAuthConfig } from "@/services/http/types";
+import { Endpoints } from "../constants";
+import { fetcher } from "../services/http/request";
+import type { ProductsConfig } from "../schemas/products";
+import type { BffAuthConfig } from "../services/http/types";
 
 type GetTransactionsParams = {
   products: ProductsConfig;

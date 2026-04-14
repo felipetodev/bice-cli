@@ -1,5 +1,5 @@
-import { loadCheckingAccount, loadConfig } from "@/config";
-import { getTransactions } from "@/services/transactions";
+import { loadCheckingAccount, loadConfig } from "../config";
+import { getTransactions } from "../services/transactions";
 
 const pagination = process.argv[2];
 const limit = process.argv[3];

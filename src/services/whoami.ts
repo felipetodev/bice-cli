@@ -1,7 +1,7 @@
-import { Endpoints } from "@/constants";
-import { fetcher } from "@/services/http/request";
-import { whoAmISchema, type WhoAmI } from "@/schemas/whoami";
-import type { BffAuthConfig } from "@/services/http/types";
+import { Endpoints } from "../constants";
+import { fetcher } from "../services/http/request";
+import { whoAmISchema, type WhoAmI } from "../schemas/whoami";
+import type { BffAuthConfig } from "../services/http/types";
 
 export async function getWhoami(auth: BffAuthConfig): Promise<WhoAmI> {
   const response = await fetcher({

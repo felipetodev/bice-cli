@@ -1,4 +1,4 @@
-import type { ProductsConfig } from "@/schemas/products";
+import type { ProductsConfig } from "../schemas/products";
 
 export function formatMaskedProducts(products?: ProductsConfig) {
   if (!products) return null;

@@ -1,5 +1,5 @@
-import { loadConfig, saveCheckingAccount } from "@/config";
-import { getProducts } from "@/services/products";
+import { loadConfig, saveCheckingAccount } from "../config";
+import { getProducts } from "../services/products";
 
 const config = await loadConfig().catch((error) => {
   console.error("Failed to load config:");

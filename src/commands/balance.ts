@@ -1,5 +1,5 @@
-import { loadCheckingAccount, loadConfig } from "@/config";
-import { getBalance } from "@/services/balance";
+import { loadCheckingAccount, loadConfig } from "../config";
+import { getBalance } from "../services/balance";
 
 const config = await loadConfig().catch((error) => {
   console.error("Failed to load config:");

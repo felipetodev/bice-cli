@@ -1,4 +1,4 @@
-import type { LoginConfig } from "@/schemas/login";
+import type { LoginConfig } from "../../schemas/login";
 
 export type BffAuthConfig = Pick<
   LoginConfig,

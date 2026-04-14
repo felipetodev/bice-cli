@@ -1,5 +1,5 @@
-import { baseHeaders } from "@/constants";
-import type { BffAuthConfig } from "@/services/http/types";
+import { baseHeaders } from "../../constants";
+import type { BffAuthConfig } from "../../services/http/types";
 
 export function buildCookieHeader({
   idSesionPersonas,

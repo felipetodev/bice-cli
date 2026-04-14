@@ -1,11 +1,11 @@
 import { chromium } from "playwright-chromium";
-import { saveConfig } from "@/config";
+import { saveConfig } from "../config";
 import {
   PASSWORD,
   RUT,
   PORTAL_URL as PAGE_LOGIN_URL,
   baseHeaders,
-} from "@/constants";
+} from "../constants";
 
 let browser: ReturnType<typeof chromium.launch> | null = null;
 

@@ -1,5 +1,5 @@
-import { loadConfig } from "@/config";
-import { getUserInfo } from "@/services/user";
+import { loadConfig } from "../config";
+import { getUserInfo } from "../services/user";
 
 const config = await loadConfig().catch((error) => {
   console.error("Failed to load config:");
