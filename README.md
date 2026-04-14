@@ -6,6 +6,7 @@
 ▬▬▬▬▬▬▬▬▬▬  ██████  ██  ██████ ███████    ██████ ███████ ██ 
 ```
 [![npm version](https://img.shields.io/npm/v/bice-cli.svg)](https://www.npmjs.com/package/bice-cli)
+[![SafeSkill 95/100](https://img.shields.io/badge/SafeSkill-95%2F100_Verified%20Safe-brightgreen)](https://safeskill.dev/scan/felipetodev-bice-cli)
 
 An unofficial **BICE CLI** tool to manage your BICE accounts via terminal commands, REST API and more.
 
