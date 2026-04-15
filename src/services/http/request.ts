@@ -55,19 +55,24 @@ export async function fetcher<T = unknown>({
   method,
   auth,
   body,
+  params,
   withCredentials,
 }: {
   endpoint: Endpoints;
   method: "GET" | "POST";
   auth: BffAuthConfig;
   body?: unknown;
+  params?: Record<string, string>;
   withCredentials?: boolean;
 }): Promise<T> {
-  const response = await fetch(`${BFF_URL}/${endpoint}`, {
-    method,
-    headers: buildHeaders(auth, withCredentials || method === "POST"),
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
+  const response = await fetch(
+    `${BFF_URL}/${endpoint}${params ? "?" + new URLSearchParams(params) : ""}`,
+    {
+      method,
+      headers: buildHeaders(auth, withCredentials || method === "POST"),
+      body: body === undefined ? undefined : JSON.stringify(body),
+    },
+  );
 
   if (!response.ok) {
     const responseBody = await response.text();

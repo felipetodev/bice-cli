@@ -7,6 +7,8 @@ import { getBalance } from "../services/balance";
 import { getProducts } from "../services/products";
 import { getTransactions } from "../services/transactions";
 import { getMonthlySummary } from "../services/monthly-summary";
+import { getClients } from "../services/clients";
+import { getPortfoliosSummary } from "../services/portfolios-summary";
 import { formatWhoAmI, formatMaskedProducts } from "../formatters";
 import type { LoginConfig } from "../schemas/login";
 import type { ProductsConfig } from "../schemas/products";
@@ -50,6 +52,13 @@ app.get("/", (c) => {
       description: "Fetches monthly summary for a given product",
       query_params: {
         periods: "Number of past months to include in the summary (default: 4)",
+      },
+    },
+    {
+      endpoint: "/api/portfolios-summary",
+      description: "Fetches portfolios summary for a given client and date",
+      query_params: {
+        date: "Date for the portfolios summary in YYYY-MM-DD format (default: current date)",
       },
     },
   ]);
@@ -160,6 +169,27 @@ app.get("/api/monthly-summary", async (c) => {
   } catch (error) {
     console.error("Error fetching monthly summary:\n", JSON.stringify(error));
     return c.json({ error: "Failed to fetch monthly summary info" }, 500);
+  }
+});
+
+app.get("/api/portfolios-summary", async (c) => {
+  const config = c.get("config");
+  const { date } = c.req.query();
+
+  try {
+    const { ClientId: clientId } = await getClients(config);
+
+    const portfoliosSummary = await getPortfoliosSummary(config, {
+      clientId,
+      date,
+    });
+    return c.json(portfoliosSummary);
+  } catch (error) {
+    console.error(
+      "Error fetching portfolios summary:\n",
+      JSON.stringify(error),
+    );
+    return c.json({ error: "Failed to fetch portfolios summary info" }, 500);
   }
 });
 
