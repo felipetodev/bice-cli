@@ -39,6 +39,7 @@
     "whoami": "bun src/commands/whoami.ts",
     "balance": "bun src/commands/balance.ts",
     "products": "bun src/commands/products.ts",
+    "movements": "bun src/commands/movements.ts",
     "transactions": "bun src/commands/transactions.ts",
     "monthly-summary": "bun src/commands/monthly-summary.ts",
     "portfolios-summary": "bun src/commands/portfolios-summary.ts",

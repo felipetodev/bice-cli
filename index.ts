@@ -18,6 +18,7 @@ const commands: Record<string, string> = {
   balance: "src/commands/balance.ts",
   products: "src/commands/products.ts",
   transactions: "src/commands/transactions.ts",
+  movements: "src/commands/movements.ts",
   "monthly-summary": "src/commands/monthly-summary.ts",
   "portfolios-summary": "src/commands/portfolios-summary.ts",
   server: "src/api/index.ts",
@@ -38,9 +39,9 @@ ${b("Banking")}
   ${c("products")}                               List all products
   ${c("balance")}                                Quick balance check
   ${c("transactions")} ${d("<page> <limit>")}            View period transactions (default: page=1, limit=40)
+  ${c("movements")} ${d("<month> <year>")}               View historic account movements (e.g. 'bice movements april 2026')
   ${c("monthly-summary")} ${d("<periods>")}              View monthly summary (e.g. 'bice monthly-summary 6' for the last 6 months)
   ${c("portfolios-summary")} ${d("<date>")}              View portfolios summary (e.g. 'bice portfolios-summary 2026-04-14')
-  WIP: ${"movements"} ${d("<month> <year>")}          View monthly movements (e.g. 'bice movements april')
 
 ${b("Session")}
   ${c("whoami")}                                 Show session info and accounts

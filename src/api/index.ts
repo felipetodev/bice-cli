@@ -1,14 +1,19 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { loadCheckingAccount, loadConfig } from "../config";
-import { getWhoami } from "../services/whoami";
-import { getUserInfo } from "../services/user";
-import { getBalance } from "../services/balance";
-import { getProducts } from "../services/products";
-import { getTransactions } from "../services/transactions";
-import { getMonthlySummary } from "../services/monthly-summary";
-import { getClients } from "../services/clients";
-import { getPortfoliosSummary } from "../services/portfolios-summary";
+import {
+  getWhoami,
+  getAccountsPeriods,
+  getBalance,
+  getClients,
+  getMonthlySummary,
+  getMovements,
+  getPortfoliosSummary,
+  getProducts,
+  getTransactions,
+  getUserInfo,
+} from "../services";
+import { getPeriodRange } from "../formatters/movements";
 import { formatWhoAmI, formatMaskedProducts } from "../formatters";
 import type { LoginConfig } from "../schemas/login";
 import type { ProductsConfig } from "../schemas/products";
@@ -61,12 +66,23 @@ app.get("/", (c) => {
         date: "Date for the portfolios summary in YYYY-MM-DD format (default: current date)",
       },
     },
+    {
+      endpoint: "/api/movements",
+      description:
+        "Fetches historic account movements for a given month and year",
+      query_params: {
+        month: "Month for the movements (e.g. 'april')",
+        year: "Year for the movements (e.g. '2026')",
+      },
+    },
   ]);
 });
 
 app.use("/api/*", async (c, next) => {
-  const config = await loadConfig();
-  const products = await loadCheckingAccount();
+  const [config, products] = await Promise.all([
+    loadConfig(),
+    loadCheckingAccount(),
+  ]);
   c.set("config", config);
   c.set("products", products);
   await next();
@@ -190,6 +206,41 @@ app.get("/api/portfolios-summary", async (c) => {
       JSON.stringify(error),
     );
     return c.json({ error: "Failed to fetch portfolios summary info" }, 500);
+  }
+});
+
+app.get("/api/movements", async (c) => {
+  const config = c.get("config");
+  const { month, year } = c.req.query();
+
+  try {
+    const {
+      data: { accounts },
+    } = await getAccountsPeriods(config);
+    const { periods, maskedProductNumber: account, currencyCode } = accounts[0];
+
+    const period = getPeriodRange({ periods, month, year });
+
+    if (!period) {
+      return c.json(
+        {
+          error: `No period found for the given month "${month}" and year "${year || new Date().getFullYear()}"`,
+        },
+        404,
+      );
+    }
+
+    const { movements } = await getMovements(config, {
+      account: account,
+      currencyCode: currencyCode,
+      startDate: period.startDate,
+      endDate: period.endDate,
+    });
+
+    return c.json(movements);
+  } catch (error) {
+    console.error("Error fetching movements:\n", JSON.stringify(error));
+    return c.json({ error: "Failed to fetch movements info" }, 500);
   }
 });
 

@@ -17,6 +17,7 @@ export enum Endpoints {
   BALANCE = "portalpersonas/bff-checking-account-transactions-100/v1/balance",
   TRANSACTIONS = "portalpersonas/bff-checking-account-transactions-100/v1/transactions",
   MOVEMENTS = "portalpersonas/bff-historic-account-movements-portal/v1/movements",
+  ACCOUNTS_PERIODS = "portalpersonas/bff-historic-account-movements-portal/v1/accounts-periods",
   MONTHLY_SUMMARY = "portalpersonas/bff-checking-account-transactions-100/v1/checking-account/get-monthly-summary",
   // portfolios - investments
   CLIENTS = "portalpersonas/bff-quiero-invertir/v1/clients",
@@ -42,3 +43,18 @@ export const baseHeaders = {
   "user-agent":
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
 };
+
+export const MONTHS_DICT = {
+  january: "1",
+  february: "2",
+  march: "3",
+  april: "4",
+  may: "5",
+  june: "6",
+  july: "7",
+  august: "8",
+  september: "9",
+  october: "10",
+  november: "11",
+  december: "12",
+} as const;

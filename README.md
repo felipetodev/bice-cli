@@ -18,7 +18,7 @@ bun add -g bice-cli@latest
 # Or clone and install locally
 git clone https://github.com/felipetodev/bice-cli.git
 cd bice-cli
-bun install (or your favorite package manager)
+bun install
 npx bice
 ```
 
@@ -43,6 +43,7 @@ bice user                            # Show user info
 bice products                        # List all products
 bice balance                         # Quick balance check
 bice transactions [page] [limit]     # View period transactions (default: page=1, limit=40)
+bice movements [month] [year]        # View historic account movements for a specific month and year (default: current month/year)
 bice monthly-summary [periods]       # View monthly summary (default: 4 past months)
 bice portfolios-summary [date]       # View portfolios summary for a specific date (YYYY-MM-DD)
 
@@ -64,6 +65,7 @@ bice server                          # Start REST API server (port 3002)
 | GET    | /api/products                      | Get all products                                        |
 | GET    | /api/transactions                  | Get transactions                                        |
 | GET    | /api/transactions?page=&limit=     | Get transactions with pagination                        |
+| GET    | /api/movements?month=&year=        | Get movements for a specific month and year             |
 | GET    | /api/balance                       | Get balance for all products                            |
 | GET    | /api/monthly-summary?periods=      | Get monthly summary (default: 4 past months)            |
 | GET    | /api/portfolios-summary?date=      | Get portfolios summary for a specific date (YYYY-MM-DD) |
