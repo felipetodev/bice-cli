@@ -1,6 +1,6 @@
 {
   "name": "bice-cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Unofficial BICE CLI. Manage your BICE accounts via terminal, REST API and more.",
   "author": {
     "name": "Felipe Ossandon",
